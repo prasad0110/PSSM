@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PMC Live Channels</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; background-color: #f4f4f4; }
+        h1 { color: #cc0000; }
+        .channel-list { list-style: none; padding: 0; }
+        .channel-item { 
+            background: white; 
+            margin: 10px 0; 
+            padding: 15px; 
+            border-radius: 8px; 
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        a { text-decoration: none; color: #333; font-weight: bold; font-size: 1.2em; }
+        a:hover { color: #cc0000; }
+        .live-indicator { color: red; font-size: 0.8em; margin-left: 10px; border: 1px solid red; padding: 2px 5px; border-radius: 4px; }
+    </style>
+</head>
+<body>
+
+    <h1>PMC Live Channels</h1>
+    <ul id="channel-container" class="channel-list">
+        </ul>
+
+    <script>
+        // List of PMC related channel handles/IDs
+        const channels = [
+            	    { name: "PMC Live", handle: "@pmctelugulive" },
+{ name: "PMC Telugu", handle: "@PMCTelugu" },
+{ name: "PMC Digital", handle: "@PMCDigitalChannel" },
+{ name: "PMC Hindi TV", handle: "@PMCHindiTV" },
+{ name: "PMC EVENTS", handle: "@pmcevents" },
+{ name: "𝗣𝗠𝗖...  𝐆𝐔𝐍𝐓𝐀𝐊𝐀𝐋", handle: "@PMCGuntakal-x5n" },
+{ name: "Ravi Raju", handle: "@s_ravi_raju" },
+{ name: "PMC Tamil", handle: "@PMCTamil" },
+{ name: "PMC KANNADA", handle: "@pmckannada" },
+{ name: "PMC Global", handle: "@PMCGlobal" },
+{ name: "PMC Music", handle: "@PMCMusicChannel" },
+{ name: "PMC Health", handle: "@PMCHealth" },
+{ name: "PMC Hindi", handle: "@PMCHindi" },
+{ name: "Pyramid Valley International", handle: "@PyramidValleyInternational" },
+{ name: "Sree Rama Pyramid", handle: "@SreeRamaPyramid" },
+{ name: "Venu Pyramid Master", handle: "@venupyramidmaster" }
+
+
+
+        ];
+
+        const container = document.getElementById('channel-container');
+
+        channels.forEach(channel => {
+            const li = document.createElement('li');
+            li.className = 'channel-item';
+            
+            // YouTube's "/live" redirect automatically sends users to a current live stream
+            const liveUrl = `https://www.youtube.com/${channel.handle}/live`;
+            
+            li.innerHTML = `
+                <a href="${liveUrl}" target="_blank">
+                    ${channel.name} 
+                    <span class="live-indicator">LIVE</span>
+                </a>
+            `;
+            container.appendChild(li);
+        });
+    </script>
+</body>
+</html>
