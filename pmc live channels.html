@@ -22,7 +22,7 @@
 </head>
 <body>
 
-    <h1>PMC Live Channels</h1>
+    <h1 id="topic">PMC Live Channels</h1>
     <ul id="channel-container" class="channel-list">
         </ul>
 
@@ -57,7 +57,7 @@
 ,{ name: "Supreme Shivam", handle: "@supremeshivam" }
 ,{ name: "PADMAJA PATRIJI MEDITATION  CHANNEL", handle: "@padmajapatrijimeditationchanel" }
 ,{ name: "Pyramid Call Services Bengaluru", handle: "@PyramidCallServicesBengaluru" }
-
+,{ name: "Pyramid Meditation", handle: "@pssmovement" }
 
 
 
@@ -80,6 +80,11 @@
             `;
             container.appendChild(li);
         });
+		
+		
+		const topic1 = document.getElementById('topic');
+		let temp = "<h2>PMC Live Channels C."+String(channels.length)+"</h2>";
+		topic1.innerHTML = temp;
     </script>
 </body>
 </html>
