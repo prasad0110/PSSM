@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PMC Live Channels</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            padding: 20px;
+            background-color: #f4f4f4;
+            margin: 0;
+            /* position relative for absolute positioning of the gif container if needed,
+               but we use a flex wrapper for layout */
+        }
+        /* top bar holding gif + heading */
+        .header-area {
+            display: flex;
+            align-items: center;
+            gap: 20px;               /* space between gif and heading */
+            margin-bottom: 20px;
+            flex-wrap: wrap;          /* responsive stacking */
+        }
+        .gif-placeholder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #ffffff;       /* subtle background behind text-gif */
+            padding: 8px 16px;
+            border-radius: 40px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            font-weight: 600;
+            font-size: 1.3rem;
+            color: #cc0000;
+            border: 1px solid #ffcccc;
+            white-space: nowrap;       /* keep NEW CHANNELS SYNC NOW in one line? 
+                                          but original gif shows two lines, so we simulate two lines */
+            flex-direction: column;    /* stack two lines */
+            align-items: flex-start;
+            line-height: 1.2;
+        }
+        /* simulate the two‑line text‑based gif */
+        .gif-text-line1 {
+            font-size: 1.2rem;
+            color: #b30000;
+            letter-spacing: 0.5px;
+        }
+        .gif-text-line2 {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: #006600;
+            text-transform: uppercase;
+            background: #fff2d0;
+            padding: 2px 8px;
+            border-radius: 30px;
+            margin-top: 4px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+        }
+        /* if you prefer an actual animated gif, replace the text with <img src="..."> 
+           but according to the prompt we have a text/gif description: "NEW CHANNELS SYNC NOW" as two lines.
+           I'll keep the stylized text representation – looks like a GIF badge */
+        .gif-badge {
+            display: inline-flex;
+            flex-direction: column;
+            background: linear-gradient(145deg, #fff3f3, #ffe6e6);
+            border: 2px solid #ff9999;
+            border-radius: 20px;
+            padding: 8px 20px;
+            box-shadow: 0 4px 8px rgba(255,0,0,0.2);
+            animation: subtlePulse 2s infinite ease-in-out;
+        }
+        @keyframes subtlePulse {
+            0% { transform: scale(1); background: #fff3f3; }
+            50% { transform: scale(1.02); background: #ffe0e0; border-color: #ff4d4d; }
+            100% { transform: scale(1); background: #fff3f3; }
+        }
+        .gif-line1 {
+            font-size: 1rem;
+            color: #a10000;
+            font-weight: 600;
+            letter-spacing: 2px;
+        }
+        .gif-line2 {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: #cc0000;
+            text-shadow: 2px 2px 0 #ffb3b3;
+            line-height: 1;
+            margin-top: 2px;
+        }
+        /* heading styling */
+        h1 {
+            color: #cc0000;
+            margin: 0;
+            font-size: 2.2rem;
+        }
+        h2 {
+            margin: 0 0 10px 0;
+            color: #333;
+            font-weight: 400;
+        }
+        .channel-list {
+            list-style: none;
+            padding: 0;
+        }
+        .channel-item { 
+            background: white; 
+            margin: 10px 0; 
+            padding: 15px; 
+            border-radius: 8px; 
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        a { 
+            text-decoration: none; 
+            color: #333; 
+            font-weight: bold; 
+            font-size: 1.2em; 
+            display: inline-flex;
+            align-items: center;
+        }
+        a:hover { color: #cc0000; }
+        .live-indicator { 
+            color: red; 
+            font-size: 0.8em; 
+            margin-left: 15px; 
+            border: 1px solid red; 
+            padding: 2px 8px; 
+            border-radius: 20px; 
+            background: #fff0f0;
+            font-weight: 600;
+        }
+
+        /* ensure everything is responsive */
+        @media (max-width: 600px) {
+            .header-area {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .gif-badge {
+                align-self: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- top left corner: gif + heading together in a flex container -->
+    <div class="header-area">
+        <!-- gif representation (top left) -->
+        <div class="gif-badge" aria-label="NEW CHANNELS SYNC NOW animation">
+            <span class="gif-line1">🚀 NEW CHANNELS</span>
+            <span class="gif-line2">SYNC NOW</span>
+        </div>
+        <!-- dynamic heading, will be replaced by script but we keep an element -->
+        <h1 id="topic">PMC - Live Channels</h1>
+    </div>
+
+    <!-- channel list container -->
+    <ul id="channel-container" class="channel-list">
+        <!-- dynamically filled -->
+    </ul>
+
+    <script>
+        // List of PMC related channel handles/IDs 
+        const channels = [
+            { name: "PMC Live", handle: "@pmctelugulive" },
+            { name: "PMC Telugu", handle: "@PMCTelugu" },
+            { name: "PMC Digital", handle: "@PMCDigitalChannel" },
+            { name: "PMC Hindi TV", handle: "@PMCHindiTV" },
+            { name: "PMC EVENTS", handle: "@pmcevents" },
+            { name: "𝗣𝗠𝗖...  𝐆𝐔𝐍𝐓𝐀𝐊𝐀𝐋", handle: "@PMCGuntakal-x5n" },
+            { name: "Ravi Raju", handle: "@s_ravi_raju" },
+            { name: "PMC Tamil", handle: "@PMCTamil" },
+            { name: "PMC KANNADA", handle: "@pmckannada" },
+            { name: "PMC Global", handle: "@PMCGlobal" },
+            { name: "PMC Music", handle: "@PMCMusicChannel" },
+            { name: "PMC Health", handle: "@PMCHealth" },
+            { name: "PMC Hindi", handle: "@PMCHindi" },
+            { name: "Pyramid Valley International", handle: "@PyramidValleyInternational" },
+            { name: "Sree Rama Pyramid", handle: "@SreeRamaPyramid" },
+            { name: "Venu Pyramid Master", handle: "@venupyramidmaster" },
+            { name: "QLU Global Telugu", handle: "@qluglobaltelugu" },
+            { name: "PMC ENGLISH", handle: "@PMCENGLISH" },
+            { name: "V M C Telugu", handle: "@vmctelugu" },
+            { name: "Conscious-LivingTV", handle: "@Conscious-LivingTV" },
+            { name: "NLIGHT TV", handle: "@NLIGHTTV" },
+            { name: "SADHGURU's MOVEMENT", handle: "@vamsikiran" },
+            { name: "Lightworkers TV", handle: "@LightworkersTV" },
+            { name: "Pyramid Call Services Telugu", handle: "@pyramidcallservices" },
+            { name: "Supreme Shivam", handle: "@supremeshivam" },
+            { name: "PADMAJA PATRIJI MEDITATION  CHANNEL", handle: "@padmajapatrijimeditationchanel" },
+            { name: "Pyramid Call Services Bengaluru", handle: "@PyramidCallServicesBengaluru" },
+            { name: "Pyramid Meditation", handle: "@pssmovement" },
+            { name: "Jeevitha Paataalu", handle: "@JeevithaPaataalu" },
+            { name: "PMC Raichur", handle: "@pmcraichur1987" },
+            { name: "PRAKRUTHI UMAMAHESH", handle: "@PRAKRUTHIUMAMAHESH" },
+            { name: "SWAROOP Spiritual Wisdom", handle: "@swaroopnaga_2025" },
+            { name: "Life exp", handle: "@Lifeexpmedia" },
+            { name: "Ekathva Telugu", handle: "@ekathvatelugu" },
+            { name: "Dhyana Divya Jeevitam", handle: "@DhyanaDivyaJeevitam" },
+            { name: "Sita Mata Pyramid Meditation Center, Dombivli East", handle: "@sitamatapyramidmeditationc4801" },
+            { name: "Chathurmasa Mahila Dhyana Deeksha_CMDD", handle: "@chathurmasamahiladhyanadee7903" },
+            { name: "Pyramid TV", handle: "@NIFTY50INDEX" },
+            { name: "Gita Meditation Channel", handle: "@GitaMeditationChannel" },
+            { name: "New Energy Warriors", handle: "@newenergywarriors6716" },
+            { name: "Pyramid Energy Channel", handle: "@pyramidenergychannel491" },
+            { name: "Sravani Spirituality", handle: "@sravanispirituality3907" },
+            { name: "Jagadambha Pyramid house Amangal", handle: "@jagadambhapyramidhouseaman792" },
+            { name: "Rk pyramid Meditation classes", handle: "@rkpyramidmeditationclasses7186" },
+            { name: "Mahashakthi Pyramid", handle: "@mahashakthipyramid8707" },
+            { name: "PSSM PYRAMIDS", handle: "@pyramidmeditationworld7653" },
+            { name: "Enlightenment Everywhere", handle: "@enlighteverywhere" },
+            { name: "PYRAMID SEVA DAL", handle: "@pyramidsevadal6063" },
+            { name: "wonder world 369", handle: "@wonderworld369" },
+            { name: "UMMADI PALAMUR PSSM", handle: "@ummadipalamurpssm4097" },
+            { name: "Vijayapuri Pyramid Meditation center", handle: "@vijayapuripyramidmeditatio4906" },
+            { name: "Common Man", handle: "@kirrakcorner" },
+            { name: "The Way Of Babaji", handle: "@thewayofbabaji233" },
+            { name: "Golden Age Spiritual Movement", handle: "@GoldenAgeGurus" },
+            { name: "Be A Master K V Swamy", handle: "@BMKVS126" },
+            { name: "PMC USA - MULTILINGUAL", handle: "@PMCUSAMULTILINGUAL" },
+            { name: "Gurusthan", handle: "@gurusthanmeditation" },
+            { name: "Ahimsa Meditation Channel AMC", handle: "@AMC-Bantumilli" },
+            { name: "pyramid party of india", handle: "@pyramidpartyofindia" },
+            { name: "Manasa Sarovara Dhyana Asramam", handle: "@manasasarovaradhyanaasrama4058" },
+            { name: "Spiritual Tablets Short Films", handle: "@spiritualtabletsshortfilms8311" },
+            { name: "ViswaChaitanya Sakthi", handle: "@ViswaChaitanyaSakthi" },
+            { name: "PMC 4G LIVE", handle: "@pmc4glive818" },
+            { name: "PATRIJI PYRAMID JAGATH", handle: "@patrijipyramidjagath" },
+            { name: "Dhyana Jagath", handle: "@Dhyanajagath" },
+            { name: "GNANI SATVA", handle: "@GNANISATVA" },
+            { name: "pyramidseverywhere", handle: "@pyramidseverywhere" },
+            { name: "Pyramid World", handle: "@pyramidworld6398" },
+            { name: "MoM: Miracles of Meditation", handle: "@mommiraclesofmeditation6721" },
+            { name: "Pyramid Spiritual Science Counseling Academy Trust", handle: "@pyramidspiritualsciencecou673" },
+            { name: "Pyramid Meditation Channel Bengali (PMC Bengali)", handle: "@PMCBengali" },
+            { name: "పిరమిడ్ జగత్", handle: "@pyramidvenkanna" },
+            { name: "Patriji Telugu", handle: "@PatrijiTelugu" },
+            { name: "Pyramid Patriji Channel USA", handle: "@PPCChannelUSA" },
+            { name: "Buddha-CEO", handle: "@BuddhaCEO" },
+            { name: "DVM GLOBAL", handle: "@dvmglobalpmc" },
+            { name: "PMC USA", handle: "@PMCUSA" },
+            { name: "Dr. Ayyappa Pindi Meditation Coach", handle: "@BeAMasterone" },
+            { name: "For You - మీ కోసం", handle: "@Satishkumar-wo4fo" },
+            { name: "PMC UK ONLINE", handle: "@PMCUKONLINE" },
+            { name: "Patriji Janmasthal Global Channel", handle: "@patrijijanmasthalglobalchannel" },
+            { name: "Dhyana Vishwam", handle: "@Dhyanavishwamofficial123" },
+            { name: "Antharyaname Athmasoundaryam", handle: "@antharyanameathmasoundarya5717" },
+            { name: "TENALI PMC", handle: "@TENALIPMC" },
+            { name: "నాయుడు గారి ధ్యాన కుటుంబం", handle: "@naidupvs4143" },
+            { name: "Nandu's Reiki World & Meditation - Pyramid Master", handle: "@nandusreikiworldmeditation8874" },
+            { name: "Sadhguru's Mahakali Meditation Channel", handle: "@zoomsadhgurusmovement5365" },
+            { name: "Inner Voice Vasu", handle: "@innervoicevasu" },
+            { name: "Healing AngelCrystals", handle: "@Angelcrystals" },
+            { name: "NEWAGE TV", handle: "@newagetv2024" },
+            { name: "Pyramid Buddha", handle: "@pyramidbuddha" },
+            { name: "Mahavatar TV Telugu", handle: "@mahavatartvtelugu" },
+            { name: "Raghavendrarao Govindu", handle: "@PyramidMasterRaghavendraRao" },
+            { name: "kranthi kumar", handle: "@kranthikumar-js3sf" },
+            { name: "BLUE PYRAMID TV", handle: "@bluepyramidtv" },
+            { name: "Dhyana Jagat TV", handle: "@DhyanaJagatTV" },
+            { name: "Vedamrutam Meditation Telugu", handle: "@vedamrutammeditationtelugu" },
+            { name: "Bhudevi Pyramid", handle: "@bhudevipyramid5816" },
+            { name: "Mahavatar TV English", handle: "@mahavatartvenglish" },
+            { name: "Aathmagnani: PDF", handle: "@PatrijiDhyanaFoundation" },
+            { name: "SWADHYAM", handle: "@Swadhyam" },
+            { name: "Tatavarthy Veera Raghava Rao", handle: "@Tatavarthy1948" },
+            { name: "Rahul Pyramid Meditation", handle: "@rahulpyramidmeditation" },
+            { name: "JAMEELA JPS Wisdom", handle: "@JAMEELAJPSWisdom" },
+            { name: "Agathiyar Pyramid Dhyana Ashram", handle: "@AgathiyarPyramidDhyanaAshram" },
+            { name: "New Light Creations", handle: "@navakanthm9" },
+            { name: "Pyramid Jagath", handle: "@pyramidjagath" },
+            { name: "Brundavana Premikulu", handle: "@Brundavanahelpinghands" },
+            { name: "Sadhguru Saraswathi", handle: "@Sadhgurus_Saraswathi" },
+            { name: "PMC Bagalkot", handle: "@MeditationWorld_2030" },
+            { name: "PMC World", handle: "@pmcworldd" },
+            { name: "Pyramid Ananda", handle: "@patrijiaudios" },
+            { name: "Pyramid Crystal Empire", handle: "@pyramidcrystalempire" },
+            { name: "Pelluru pyramid", handle: "@meditetion-p9l" },
+            { name: "Anandam Channel", handle: "@AnandamChannelTelugu" },
+            { name: "VIBHA MEDITATION VIBES", handle: "@vibhameditationvibes" },
+            { name: "Tapasthali piramid Ravicerla", handle: "@TapasthalipiramidRavicerla" },
+            { name: "ENERGY PYRAMID CHANNEL", handle: "@energypyramidchannel3705" },
+            { name: "Lumbini pyramid adigoppula", handle: "@JayasriGarine" }
+        ];
+
+        const container = document.getElementById('channel-container');
+
+        channels.forEach(channel => {
+            const li = document.createElement('li');
+            li.className = 'channel-item';
+            
+            // YouTube's "/live" redirect automatically sends users to a current live stream
+            const liveUrl = `https://www.youtube.com/${channel.handle}/live`;
+            
+            li.innerHTML = `
+                <a href="${liveUrl}" target="_blank">
+                    ${channel.name} 
+                    <span class="live-indicator">LIVE</span>
+                </a>
+            `;
+            container.appendChild(li);
+        });
+        
+        // Update heading with channel count (but we keep the GIF separate)
+        const topic1 = document.getElementById('topic');
+        // we preserve the gif in header-area, but update h1 content to include count? 
+        // original design had h1 replaced with count. To stay consistent, we put count inside h1.
+        topic1.innerHTML = `PMC - Live Channels <span style="font-size: 1.6rem; background: #cc0000; color: white; padding: 2px 12px; border-radius: 40px; margin-left: 10px;">${channels.length}</span>`;
+    </script>
+</body>
+</html>
