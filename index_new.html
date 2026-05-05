@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>PMC Live Channels - A to Z Spiritual Hub</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, 'Segoe UI', 'Roboto', 'Noto Sans', sans-serif;
+            background: #f8f9fc;
+            color: #1e2a3e;
+        }
+
+        /* === LAYOUT WITH LEFT A-Z SIDEBAR === */
+        .app-wrapper {
+            display: flex;
+            flex-direction: row;
+            min-height: 100vh;
+            max-width: 1600px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        /* ===== A-Z SIDEBAR ===== */
+        .alphabet-sidebar {
+            width: 80px;
+            background: linear-gradient(145deg, #ffffff 0%, #f1f3f7 100%);
+            border-right: 1px solid rgba(0, 0, 0, 0.08);
+            box-shadow: 4px 0 12px rgba(0, 0, 0, 0.02);
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 0;
+            z-index: 20;
+            transition: all 0.2s ease;
+            scrollbar-width: thin;
+        }
+
+        .alphabet-sidebar::-webkit-scrollbar {
+            width: 3px;
+        }
+
+        .alphabet-sidebar::-webkit-scrollbar-track {
+            background: #e2e8f0;
+        }
+
+        .alphabet-sidebar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+
+        .alpha-btn {
+            background: transparent;
+            border: none;
+            font-size: 1.1rem;
+            font-weight: 600;
+            width: 48px;
+            height: 48px;
+            margin: 4px 0;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            color: #2c3e50;
+            font-family: monospace;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255,255,240,0.6);
+            backdrop-filter: blur(2px);
+        }
+
+        .alpha-btn:hover {
+            background: #cc0000;
+            color: white;
+            transform: scale(1.02);
+            box-shadow: 0 6px 12px rgba(204,0,0,0.2);
+        }
+
+        .alpha-btn.active-letter {
+            background: #cc0000;
+            color: white;
+            box-shadow: 0 4px 12px rgba(204,0,0,0.35);
+            border: 1px solid rgba(255,215,0,0.3);
+        }
+
+        /* main content */
+        .main-content {
+            flex: 1;
+            padding: 28px 32px 48px 32px;
+            background: #fefefe;
+        }
+
+        /* header area */
+        .header-area {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #cc0000;
+            padding-bottom: 15px;
+        }
+
+        h1 {
+            font-size: 1.9rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #b91c1c, #cc0000);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: -0.3px;
+        }
+
+        .channel-count-badge {
+            background: #1e293b;
+            color: #facc15;
+            padding: 6px 14px;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            box-shadow: inset 0 0 0 1px rgba(255,255,200,0.2);
+        }
+
+        /* quick summary */
+        .stats-ribbon {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin: 20px 0 20px 0;
+            background: #f1f5f9;
+            padding: 10px 20px;
+            border-radius: 48px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        /* channel grid / list */
+        .channel-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .channel-item {
+            background: white;
+            border-radius: 20px;
+            transition: all 0.2s;
+            border: 1px solid #e9edf2;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+        }
+
+        .channel-item:hover {
+            transform: translateX(5px);
+            border-left: 4px solid #cc0000;
+            box-shadow: 0 8px 18px rgba(0,0,0,0.05);
+            background: #fffdf7;
+        }
+
+        .channel-link {
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 20px;
+            font-weight: 600;
+            color: #1f2a3e;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .channel-name {
+            font-size: 1.05rem;
+            letter-spacing: -0.2px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .live-indicator {
+            background: #ffebee;
+            color: #d32f2f;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 30px;
+            border: 1px solid #ffcdd2;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .channel-handle {
+            font-size: 0.75rem;
+            font-family: monospace;
+            background: #f1f5f9;
+            padding: 4px 10px;
+            border-radius: 30px;
+            color: #475569;
+        }
+
+        /* section letter header */
+        .letter-section {
+            margin-top: 28px;
+            scroll-margin-top: 20px;
+        }
+
+        .letter-heading {
+            background: linear-gradient(90deg, #fff0f0, #ffffff);
+            padding: 8px 18px;
+            border-radius: 60px;
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #aa2e2e;
+            border-left: 5px solid #cc0000;
+            margin-bottom: 14px;
+            display: inline-block;
+            width: auto;
+        }
+
+        hr {
+            margin: 10px 0 5px;
+            border: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #e2e8f0, transparent);
+        }
+
+        /* scroll to top button */
+        .to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 25px;
+            background: #cc0000;
+            color: white;
+            border: none;
+            width: 48px;
+            height: 48px;
+            border-radius: 60px;
+            font-size: 1.6rem;
+            cursor: pointer;
+            box-shadow: 0 8px 18px rgba(0,0,0,0.2);
+            z-index: 99;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s;
+        }
+
+        .to-top:hover {
+            background: #9b2c2c;
+            transform: scale(1.05);
+        }
+
+        /* Responsive: on small screens sidebar becomes bottom bar? no, but we make it thinner */
+        @media (max-width: 680px) {
+            .alphabet-sidebar {
+                width: 60px;
+            }
+            .alpha-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 0.9rem;
+            }
+            .main-content {
+                padding: 16px 18px;
+            }
+            .channel-link {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .channel-handle {
+                font-size: 0.7rem;
+            }
+        }
+
+        @media (max-width: 550px) {
+            .app-wrapper {
+                flex-direction: column;
+            }
+            .alphabet-sidebar {
+                position: relative;
+                width: 100%;
+                height: auto;
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+                padding: 12px 8px;
+                gap: 6px;
+                border-right: 0;
+                border-bottom: 1px solid #ddd;
+                top: 0;
+                overflow-x: auto;
+            }
+            .alpha-btn {
+                width: 38px;
+                height: 38px;
+                margin: 2px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="app-wrapper">
+    <!-- LEFT ALPHABET NAVIGATION -->
+    <div class="alphabet-sidebar" id="alphabetSidebar"></div>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+        <div class="header-area">
+            <h1>🔴 PMC · Live Channels</h1>
+            <div class="channel-count-badge" id="liveCountDisplay">loading channels...</div>
+        </div>
+        <div class="stats-ribbon">
+            <span>✨ <strong id="totalCountSpan">0</strong> active spiritual streams</span>
+            <span>🎯 click any letter → jump to section</span>
+            <span>📡 YouTube LIVE redirects</span>
+        </div>
+        <div id="dynamic-channel-container">
+            <!-- sorted & grouped by letter will be injected here -->
+            <div style="text-align:center; padding: 40px;">🕉️ Loading PMC Universe ...</div>
+        </div>
+    </div>
+    <button class="to-top" id="scrollTopBtn" aria-label="Scroll to top">↑</button>
+</div>
+
+<script>
+    // ----------------------------- ORIGINAL CHANNELS (exactly as given) -----------------------------
+    const rawChannels = [
+        { name: "PMC Live", handle: "@pmctelugulive" },
+        { name: "PMC Telugu", handle: "@PMCTelugu" },
+        { name: "PMC Digital", handle: "@PMCDigitalChannel" },
+        { name: "PMC Hindi TV", handle: "@PMCHindiTV" },
+        { name: "PMC EVENTS", handle: "@pmcevents" },
+        { name: "𝗣𝗠𝗖...  𝐆𝐔𝐍𝐓𝐀𝐊𝐀𝐋", handle: "@PMCGuntakal-x5n" },
+        { name: "Ravi Raju", handle: "@s_ravi_raju" },
+        { name: "PMC Tamil", handle: "@PMCTamil" },
+        { name: "PMC KANNADA", handle: "@pmckannada" },
+        { name: "PMC Global", handle: "@PMCGlobal" },
+        { name: "PMC Music", handle: "@PMCMusicChannel" },
+        { name: "PMC Health", handle: "@PMCHealth" },
+        { name: "PMC Hindi", handle: "@PMCHindi" },
+        { name: "Pyramid Valley International", handle: "@PyramidValleyInternational" },
+        { name: "Sree Rama Pyramid", handle: "@SreeRamaPyramid" },
+        { name: "Venu Pyramid Master", handle: "@venupyramidmaster" },
+        { name: "QLU Global Telugu", handle: "@qluglobaltelugu" },
+        { name: "PMC ENGLISH", handle: "@PMCENGLISH" },
+        { name: "V M C Telugu", handle: "@vmctelugu" },
+        { name: "Conscious-LivingTV", handle: "@Conscious-LivingTV" },
+        { name: "NLIGHT TV", handle: "@NLIGHTTV" },
+        { name: "SADHGURU's MOVEMENT", handle: "@vamsikiran" },
+        { name: "Lightworkers TV", handle: "@LightworkersTV" },
+        { name: "Pyramid Call Services Telugu", handle: "@pyramidcallservices" },
+        { name: "Supreme Shivam", handle: "@supremeshivam" },
+        { name: "PADMAJA PATRIJI MEDITATION  CHANNEL", handle: "@padmajapatrijimeditationchanel" },
+        { name: "Pyramid Call Services Bengaluru", handle: "@PyramidCallServicesBengaluru" },
+        { name: "Pyramid Meditation", handle: "@pssmovement" },
+        { name: "Jeevitha Paataalu", handle: "@JeevithaPaataalu" },
+        { name: "PMC Raichur", handle: "@pmcraichur1987" },
+        { name: "PRAKRUTHI UMAMAHESH", handle: "@PRAKRUTHIUMAMAHESH" },
+        { name: "SWAROOP Spiritual Wisdom", handle: "@swaroopnaga_2025" },
+        { name: "Life exp", handle: "@Lifeexpmedia" },
+        { name: "Ekathva Telugu", handle: "@ekathvatelugu" },
+        { name: "Dhyana Divya Jeevitam", handle: "@DhyanaDivyaJeevitam" },
+        { name: "Sita Mata Pyramid Meditation Center, Dombivli East", handle: "@sitamatapyramidmeditationc4801" },
+        { name: "Chathurmasa Mahila Dhyana Deeksha_CMDD", handle: "@chathurmasamahiladhyanadee7903" },
+        { name: "Pyramid TV", handle: "@NIFTY50INDEX" },
+        { name: "Gita Meditation Channel", handle: "@GitaMeditationChannel" },
+        { name: "New Energy Warriors", handle: "@newenergywarriors6716" },
+        { name: "Pyramid Energy Channel", handle: "@pyramidenergychannel491" },
+        { name: "Sravani Spirituality", handle: "@sravanispirituality3907" },
+        { name: "Jagadambha Pyramid house Amangal", handle: "@jagadambhapyramidhouseaman792" },
+        { name: "Rk pyramid Meditation classes", handle: "@rkpyramidmeditationclasses7186" },
+        { name: "Mahashakthi Pyramid", handle: "@mahashakthipyramid8707" },
+        { name: "PSSM PYRAMIDS", handle: "@pyramidmeditationworld7653" },
+        { name: "Enlightenment Everywhere", handle: "@enlighteverywhere" },
+        { name: "PYRAMID SEVA DAL", handle: "@pyramidsevadal6063" },
+        { name: "wonder world 369", handle: "@wonderworld369" },
+        { name: "UMMADI PALAMUR PSSM", handle: "@ummadipalamurpssm4097" },
+        { name: "Vijayapuri Pyramid Meditation center", handle: "@vijayapuripyramidmeditatio4906" },
+        { name: "Common Man", handle: "@kirrakcorner" },
+        { name: "The Way Of Babaji", handle: "@thewayofbabaji233" },
+        { name: "Golden Age Spiritual Movement", handle: "@GoldenAgeGurus" },
+        { name: "Be A Master K V Swamy", handle: "@BMKVS126" },
+        { name: "PMC USA - MULTILINGUAL", handle: "@PMCUSAMULTILINGUAL" },
+        { name: "Gurusthan", handle: "@gurusthanmeditation" },
+        { name: "Ahimsa Meditation Channel AMC", handle: "@AMC-Bantumilli" },
+        { name: "pyramid party of india", handle: "@pyramidpartyofindia" },
+        { name: "Manasa Sarovara Dhyana Asramam", handle: "@manasasarovaradhyanaasrama4058" },
+        { name: "Spiritual Tablets Short Films", handle: "@spiritualtabletsshortfilms8311" },
+        { name: "ViswaChaitanya Sakthi", handle: "@ViswaChaitanyaSakthi" },
+        { name: "PMC 4G LIVE", handle: "@pmc4glive818" },
+        { name: "PATRIJI PYRAMID JAGATH", handle: "@patrijipyramidjagath" },
+        { name: "Dhyana Jagath", handle: "@Dhyanajagath" },
+        { name: "GNANI SATVA", handle: "@GNANISATVA" },
+        { name: "pyramidseverywhere", handle: "@pyramidseverywhere" },
+        { name: "Pyramid World", handle: "@pyramidworld6398" },
+        { name: "MoM: Miracles of Meditation", handle: "@mommiraclesofmeditation6721" },
+        { name: "Pyramid Spiritual Science Counseling Academy Trust", handle: "@pyramidspiritualsciencecou673" },
+        { name: "Pyramid Meditation Channel Bengali (PMC Bengali)", handle: "@PMCBengali" },
+        { name: "పిరమిడ్ జగత్", handle: "@pyramidvenkanna" },
+        { name: "Patriji Telugu", handle: "@PatrijiTelugu" },
+        { name: "Pyramid Patriji Channel USA", handle: "@PPCChannelUSA" },
+        { name: "Buddha-CEO", handle: "@BuddhaCEO" },
+        { name: "DVM GLOBAL", handle: "@dvmglobalpmc" },
+        { name: "PMC USA", handle: "@PMCUSA" },
+        { name: "Dr. Ayyappa Pindi Meditation Coach", handle: "@BeAMasterone" },
+        { name: "For You - మీ కోసం", handle: "@Satishkumar-wo4fo" },
+        { name: "PMC UK ONLINE", handle: "@PMCUKONLINE" },
+        { name: "Patriji Janmasthal Global Channel", handle: "@patrijijanmasthalglobalchannel" },
+        { name: "Dhyana Vishwam", handle: "@Dhyanavishwamofficial123" },
+        { name: "Antharyaname Athmasoundaryam", handle: "@antharyanameathmasoundarya5717" },
+        { name: "TENALI PMC", handle: "@TENALIPMC" },
+        { name: "నాయుడు గారి ధ్యాన కుటుంబం", handle: "@naidupvs4143" },
+        { name: "Nandu's Reiki World & Meditation - Pyramid Master", handle: "@nandusreikiworldmeditation8874" },
+        { name: "Sadhguru's Mahakali Meditation Channel", handle: "@zoomsadhgurusmovement5365" },
+        { name: "Inner Voice Vasu", handle: "@innervoicevasu" },
+        { name: "Healing AngelCrystals", handle: "@Angelcrystals" },
+        { name: "NEWAGE TV", handle: "@newagetv2024" },
+        { name: "Pyramid Buddha", handle: "@pyramidbuddha" },
+        { name: "Mahavatar TV Telugu", handle: "@mahavatartvtelugu" },
+        { name: "Raghavendrarao Govindu", handle: "@PyramidMasterRaghavendraRao" },
+        { name: "kranthi kumar", handle: "@kranthikumar-js3sf" },
+        { name: "BLUE PYRAMID TV", handle: "@bluepyramidtv" },
+        { name: "Dhyana Jagat TV", handle: "@DhyanaJagatTV" },
+        { name: "Vedamrutam Meditation Telugu", handle: "@vedamrutammeditationtelugu" },
+        { name: "Bhudevi Pyramid", handle: "@bhudevipyramid5816" },
+        { name: "Mahavatar TV English", handle: "@mahavatartvenglish" },
+        { name: "Aathmagnani: PDF", handle: "@PatrijiDhyanaFoundation" },
+        { name: "SWADHYAM", handle: "@Swadhyam" },
+        { name: "Tatavarthy Veera Raghava Rao", handle: "@Tatavarthy1948" },
+        { name: "Rahul Pyramid Meditation", handle: "@rahulpyramidmeditation" },
+        { name: "JAMEELA JPS Wisdom", handle: "@JAMEELAJPSWisdom" },
+        { name: "Agathiyar Pyramid Dhyana Ashram", handle: "@AgathiyarPyramidDhyanaAshram" },
+        { name: "New Light Creations", handle: "@navakanthm9" },
+        { name: "Pyramid Jagath", handle: "@pyramidjagath" },
+        { name: "Brundavana Premikulu", handle: "@Brundavanahelpinghands" },
+        { name: "Sadhguru Saraswathi", handle: "@Sadhgurus_Saraswathi" },
+        { name: "PMC Bagalkot", handle: "@MeditationWorld_2030" },
+        { name: "PMC World", handle: "@pmcworldd" },
+        { name: "Pyramid Ananda", handle: "@patrijiaudios" },
+        { name: "Pyramid Crystal Empire", handle: "@pyramidcrystalempire" },
+        { name: "Pelluru pyramid", handle: "@meditetion-p9l" },
+        { name: "Anandam Channel", handle: "@AnandamChannelTelugu" },
+        { name: "VIBHA MEDITATION VIBES", handle: "@vibhameditationvibes" },
+        { name: "Tapasthali piramid Ravicerla", handle: "@TapasthalipiramidRavicerla" },
+        { name: "ENERGY PYRAMID CHANNEL", handle: "@energypyramidchannel3705" },
+        { name: "Lumbini pyramid adigoppula", handle: "@JayasriGarine" },
+        { name: "Nataraja Mahashivan", handle: "@Nataraja_Mahashivan" },
+        { name: "AMC TELUGU", handle: "@AMCTELUGU" },
+        { name: "PYRAMID MASTERS TV", handle: "@pyramidmasterstv" },
+        { name: "Pyramid Energy Utilities", handle: "@pyramidenergyutilities6622" },
+        { name: "Andhra PMC", handle: "@AndhraPMC" },
+        { name: "MOOLA CHAITANYA PYRAMID WANAPARTHY DIST", handle: "@mcpmoolachaitanyapyramidch1964" },
+        { name: "Sri Krishna Pyramid, Peapully, Kurnool Dt", handle: "@SriSrishnaPyramidPeapully" },
+        { name: "Maitreya Buddha Soul Care", handle: "@maitreyabuddhasoulcareglobal" },
+        { name: "Atlanta Pyramid Meditation Academy", handle: "@AtlPMA" },
+        { name: "DEAR PYRAMID MASTER online tv", handle: "@dearpyramidmasteronlinetv4816" },
+        { name: "PMC Ballari", handle: "@PMCBallari" },
+        { name: "Sri Vedavyasa Vasista Pyramid", handle: "@SriVedavyasaVasistaPyramid" }
+    ];
+
+    // ----- helper: normalize name and get first letter (A-Z, numbers, symbols -> #)
+    function getFirstLetterForGroup(channelName) {
+        if (!channelName || channelName.length === 0) return '#';
+        // trim and get first character
+        let firstChar = channelName.trim().charAt(0).toUpperCase();
+        // if it's not A-Z, group as '#'
+        if (/[A-Z]/.test(firstChar)) {
+            return firstChar;
+        }
+        // check for Telugu / other scripts or digit → fallback to '#'
+        return '#';
+    }
+
+    // sort channels by name (ascending order)
+    function sortChannelsAscending(channelsArr) {
+        return [...channelsArr].sort((a, b) => {
+            const nameA = a.name.trim().toLowerCase();
+            const nameB = b.name.trim().toLowerCase();
+            if (nameA < nameB) return -1;
+            if (nameA > nameB) return 1;
+            return 0;
+        });
+    }
+
+    // group sorted channels by letter
+    function groupChannelsByLetter(sortedChannels) {
+        const groups = new Map(); // letter -> array of channels
+        for (const ch of sortedChannels) {
+            const letter = getFirstLetterForGroup(ch.name);
+            if (!groups.has(letter)) groups.set(letter, []);
+            groups.get(letter).push(ch);
+        }
+        // sort letters: A-Z then '#' at the end
+        const sortedLetters = Array.from(groups.keys()).sort((a,b) => {
+            if (a === '#') return 1;
+            if (b === '#') return -1;
+            return a.localeCompare(b);
+        });
+        return { groups, sortedLetters };
+    }
+
+    // render full HTML content with letter sections
+    function renderChannels(sortedChannels) {
+        const { groups, sortedLetters } = groupChannelsByLetter(sortedChannels);
+        const containerDiv = document.getElementById('dynamic-channel-container');
+        if (!containerDiv) return;
+        
+        let html = '';
+        for (const letter of sortedLetters) {
+            const channelList = groups.get(letter);
+            html += `<div class="letter-section" id="section-${letter}">`;
+            html += `<div class="letter-heading">📺 ${letter}</div>`;
+            html += `<ul class="channel-list">`;
+            for (const ch of channelList) {
+                const liveUrl = `https://www.youtube.com/${ch.handle}/live`;
+                // escape handle for safety but it's safe
+                const displayName = ch.name;
+                const handleDisplay = ch.handle;
+                html += `
+                    <li class="channel-item">
+                        <a href="${liveUrl}" target="_blank" class="channel-link" rel="noopener noreferrer">
+                            <span class="channel-name">
+                                ${escapeHtml(displayName)}
+                                <span class="live-indicator">LIVE</span>
+                            </span>
+                            <span class="channel-handle">${escapeHtml(handleDisplay)}</span>
+                        </a>
+                    </li>
+                `;
+            }
+            html += `</ul></div><hr />`;
+        }
+        if (sortedLetters.length === 0) {
+            html = '<div style="padding:2rem;text-align:center">✨ No channels found</div>';
+        }
+        containerDiv.innerHTML = html;
+        document.getElementById('totalCountSpan').innerText = sortedChannels.length;
+        document.getElementById('liveCountDisplay').innerHTML = `📡 ${sortedChannels.length} Live Links`;
+    }
+
+    // simple escape to avoid injection
+    function escapeHtml(str) {
+        if (!str) return '';
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
+            return c;
+        });
+    }
+
+    // build A-Z buttons dynamically based on available letters after sort (makes it dynamic)
+    function buildAlphabetNav(sortedChannels) {
+        const { groups, sortedLetters } = groupChannelsByLetter(sortedChannels);
+        const sidebar = document.getElementById('alphabetSidebar');
+        if (!sidebar) return;
+        sidebar.innerHTML = '';
+        // add all existing letters from data
+        for (let letter of sortedLetters) {
+            const btn = document.createElement('button');
+            btn.textContent = letter;
+            btn.classList.add('alpha-btn');
+            btn.setAttribute('data-letter', letter);
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetElement = document.getElementById(`section-${letter}`);
+                if (targetElement) {
+                    targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+                // active style update
+                document.querySelectorAll('.alpha-btn').forEach(btnEl => btnEl.classList.remove('active-letter'));
+                btn.classList.add('active-letter');
+                setTimeout(() => {
+                    // optional remove after 1.2 sec but keep visual feedback
+                }, 600);
+            });
+            sidebar.appendChild(btn);
+        }
+        // additionally add a 'Top' button for convenience
+        const topBtn = document.createElement('button');
+        topBtn.textContent = '↑';
+        topBtn.classList.add('alpha-btn');
+        topBtn.style.background = '#cc000022';
+        topBtn.style.fontSize = '1.4rem';
+        topBtn.title = "Scroll to top";
+        topBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            document.querySelectorAll('.alpha-btn').forEach(btn => btn.classList.remove('active-letter'));
+        });
+        sidebar.appendChild(topBtn);
+    }
+
+    // main execution: sort + render full UI
+    function init() {
+        // 1. sort channels in ascending order (based on name)
+        const sorted = sortChannelsAscending(rawChannels);
+        // 2. render channels in sections
+        renderChannels(sorted);
+        // 3. build A-Z left sidebar navigation (based on available groups)
+        buildAlphabetNav(sorted);
+        // 4. scroll to top button logic
+        const topScrollBtn = document.getElementById('scrollTopBtn');
+        if (topScrollBtn) {
+            topScrollBtn.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                document.querySelectorAll('.alpha-btn').forEach(btn => btn.classList.remove('active-letter'));
+            });
+        }
+        // optional: active section while scrolling? just nice to have
+        const sections = document.querySelectorAll('.letter-section');
+        if (sections.length > 0) {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const id = entry.target.id;
+                        if (id && id.startsWith('section-')) {
+                            const letter = id.replace('section-', '');
+                            document.querySelectorAll('.alpha-btn').forEach(btn => {
+                                if (btn.textContent === letter) btn.classList.add('active-letter');
+                                else if (btn.textContent !== '↑') btn.classList.remove('active-letter');
+                            });
+                        }
+                    }
+                });
+            }, { threshold: 0.3 });
+            sections.forEach(section => observer.observe(section));
+        }
+    }
+
+    init();
+</script>
+</body>
+</html>
