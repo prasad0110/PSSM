@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News Live Channels</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; background-color: #f4f4f4; }
+        h1 { color: #cc0000; }
+        .channel-list { list-style: none; padding: 0; }
+        .channel-item { 
+            background: white; 
+            margin: 10px 0; 
+            padding: 15px; 
+            border-radius: 8px; 
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        a { text-decoration: none; color: #333; font-weight: bold; font-size: 1.2em; }
+        a:hover { color: #cc0000; }
+        .live-indicator { color: red; font-size: 0.8em; margin-left: 10px; border: 1px solid red; padding: 2px 5px; border-radius: 4px; }
+    </style>
+</head>
+<body>
+
+    <h1 id="topic">News - Live Channels</h1>
+    <ul id="channel-container" class="channel-list">
+        </ul>
+
+    <script>
+        // List of PMC related channel handles/IDs 
+        //,{ name: "", handle: "" }
+        const channels = [
+                     { name: "TV9 Live", handle: "@TV9TeluguLive" }
+					,{ name: "SVBC TTD", handle: "@svbcttd" }
+					,{ name: "TEENMAR MALLANNA OFFICIAL PAGE", handle: "@TeenmarMallannaofficial" }
+					,{ name: "NTV Telugu", handle: "@ntvtelugu" }
+					,{ name: "ABN Telugu", handle: "@abntelugutv" }
+					,{ name: "TV5 News", handle: "@tv5news" }
+					,{ name: "BIG TV Telugu Live", handle: "@BIGTVTeluguLive" }
+					,{ name: "T News Telugu", handle: "@TnewsTelugu" }
+					,{ name: "News18 Telugu", handle: "@News18Telugu" }
+					,{ name: "INEWS LIVE", handle: "@inewslive1662" }
+					,{ name: "Mahaa News", handle: "@mahaanews" }
+,{ name: "TENALI NEWS CHANNEL", handle: "@TENALINEWS" }
+		,{ name: "SITI NEWS TENALI", handle: "@siticabletenali" }			
+,{ name: "STVTENALI", handle: "@STVTENALI" }
+,{ name: "asianetnews", handle: "@asianetnews" }
+,{ name: "HARIKA CABLE VISION", handle: "@hcvnewstenali" }
+,{ name: "GTV Tenali", handle: "@GTVTenali" }
+,{ name: "V6 News Telugu", handle: "V6NewsTelugu" }
+,{ name: "SDV NEWS CHANNEL VIZAG", handle: "@sdvnewschannelvizag7015" }
+,{ name: "TENALIHCVNEWS", handle: "@tenalihcvnews" }
+,{ name: "hmtv Telugu News", handle: "@hmtvtelugunewslive" }
+,{ name: "10TV News Telugu", handle: "@10TVNewsTelugu" }
+,{ name: "Prime9 News", handle: "@Prime9News" }
+,{ name: "Bhakthi TV", handle: "@bhakthitv" }
+,{ name: "Vanitha TV Live", handle: "@vanithatvlive" }
+,{ name: "Firstpost", handle: "@Firstpost" }
+
+,{ name: "ET Now World", handle: "@etnowworld" }
+,{ name: "ET Now", handle: "@etnow" }
+,{ name: "CNN-News18", handle: "@cnnnews18" }
+,{ name: "LiveNOW from FOX", handle: "@livenowfox" }
+,{ name: "MIRROR NOW", handle: "@mirrornow" }
+,{ name: "Times Now", handle: "@TimesNow" }
+,{ name: "Sakshi TV Digital", handle: "@SakshiTVDigital" }
+,{ name: "Sakshi TV", handle: "@SakshiTV" }
+,{ name: "WION", handle: "@WION" }
+,{ name: "TV9 Bharatvarsh", handle: "@TV9Bharatvarsh" }
+,{ name: "CNBC-TV18", handle: "@CNBC-TV18" }
+,{ name: "RTV", handle: "@RTVNewsNetwork" }
+,{ name: "News18 Kerala", handle: "@News18Kerala" }
+,{ name: "24 News(Malayalam)", handle: "@24OnLive" }
+,{ name: "Sun News(Tamil)", handle: "@Sunnewstamil" }
+,{ name: "Sathiyam News(Tamil)", handle: "@SathiyamTV" }
+,{ name: "Polimer News(Tamil)", handle: "@PolimerNews" }
+,{ name: "Jaya Plus(Tamil)", handle: "@JayaPlusNews" }
+,{ name: "NewsJ(Tamil)", handle: "@NewsJ" }
+,{ name: "Kalaignar TV News(Tamil)", handle: "@KalaignarTVNews" }
+,{ name: "PuthiyathalaimuraiTV(Tamil)", handle: "@PuthiyaThalaimuraiTV" }
+,{ name: "Tv9 Kannada", handle: "@tv9kannada" }
+,{ name: "India Today", handle: "@indiatoday" }
+,{ name: "ANN Telugu", handle: "@ann-telugu" }
+,{ name: "Aaj Tak", handle: "@aajtak" }
+,{ name: "News 24", handle: "@News24thinkfirst" }
+,{ name: "IndiaTV", handle: "@indiatv" }
+,{ name: "ABP NEWS", handle: "@ABPNews" }
+,{ name: "HISTORY TV18", handle: "@historytv18" }
+,{ name: "Republic World", handle: "@RepublicWorld" }
+,{ name: "Republic Bharat", handle: "@RepublicBharat" }
+,{ name: "DB Live", handle: "@DBLive" }
+,{ name: "NDTV India", handle: "@ndtvindia" }
+,{ name: "DNAIndiaNews", handle: "@DNAIndiaNews" }
+
+
+
+        ];
+//,{ name: "", handle: "" }
+
+        const container = document.getElementById('channel-container');
+
+        channels.forEach(channel => {
+            const li = document.createElement('li');
+            li.className = 'channel-item';
+            
+            // YouTube's "/live" redirect automatically sends users to a current live stream
+            const liveUrl = `https://www.youtube.com/${channel.handle}/live`;
+            
+            li.innerHTML = `
+                <a href="${liveUrl}" target="_blank">
+                    ${channel.name} 
+                    <span class="live-indicator">LIVE</span>
+                </a>
+            `;
+            container.appendChild(li);
+        });
+        
+        
+        const topic1 = document.getElementById('topic');
+        let temp = "<h2>News - Live Channels Count - "+String(channels.length)+"</h2>";
+        topic1.innerHTML = temp;
+    </script>
+</body>
+</html>

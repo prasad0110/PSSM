@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Youtubers Channels</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; background-color: #f4f4f4; }
+        h1 { color: #cc0000; }
+        .channel-list { list-style: none; padding: 0; }
+        .channel-item { 
+            background: white; 
+            margin: 10px 0; 
+            padding: 15px; 
+            border-radius: 8px; 
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        a { text-decoration: none; color: #333; font-weight: bold; font-size: 1.2em; }
+        a:hover { color: #cc0000; }
+        .live-indicator { color: red; font-size: 0.8em; margin-left: 10px; border: 1px solid red; padding: 2px 5px; border-radius: 4px; }
+    </style>
+</head>
+<body>
+
+    <h1 id="topic">Youtubers - Live Channels</h1>
+    <ul id="channel-container" class="channel-list">
+        </ul>
+
+    <script>
+        // List of PMC related channel handles/IDs 
+        //,{ name: "", handle: "" }
+        const channels = [
+                    { name: "VAAS Family", handle: "@VAASFamily" }
+,{ name: "PRASAD KUWAIT", handle: "@PRASADKUWAIT19." }
+,{ name: "Ram The Traveller", handle: "@Ramthetraveller" }
+,{ name: "Sudheer The Explorer", handle: "@SudheerRides" }
+,{ name: "Dr. Vinay Prasad Bhakti channel", handle: "@vinayprasadharikathalu6658" }
+,{ name: "ALLU BHASKAR REDDY", handle: "@allubhaskarreddy" }
+,{ name: "Nakshathraa Jyothishyalayam", handle: "@NakshathraaJyothishyalayam" }
+,{ name: "Arabic Ammayi Andhra Abbayi", handle: "@ArabicAmmayiAndhraAbbayi" }
+,{ name: "Abhignareddy Lakkireddy", handle: "@AbhignareddyLakkireddy" }
+,{ name: "Uma Telugu Traveller", handle: "@UmaTeluguTraveller" }
+,{ name: "USA RAJA Telugu vlogs", handle: "@USARAJATeluguvlogs" }
+,{ name: "SHIVA SHAKTHI", handle: "@SHIVASHAKTHI" }
+,{ name: "Akanksha Sharan", handle: "@Akankshasharanvlogs" }
+,{ name: "Austin Ammayi", handle: "@AustinAmmayi_adhya9" }
+,{ name: "Vijay Pavan Kolukula", handle: "@Valasadaari" }
+,{ name: "Spain lo Telugu Ammayi", handle: "@SpainloTeluguAmmayi" }
+,{ name: "Aadhan Food & Travel", handle: "@AadhanFoodandTravel" }
+,{ name: "Seven traveler", handle: "@Seventraveler" }
+,{ name: "Nanda's Journey", handle: "@NandasJourney" }
+,{ name: "HN motovlogs", handle: "@HNmotovlogs" }
+,{ name: "Kranthi Travel Vlogger", handle: "@kranthitravelvlogger" }
+,{ name: "Shruthi Talks", handle: "@Shruthitalks" }
+,{ name: "Grishma Udayawar", handle: "@GrishmaUdayawar" }
+,{ name: "Ravi Telugu Traveller", handle: "@RaviTeluguTraveller" }
+,{ name: "Ravi On Trip", handle: "@raviontrip" }
+,{ name: "V2 Vignanam-Viharam", handle: "@V2VignanamViharam" }
+,{ name: "Greeshma Vlogs", handle: "@Greeshma_Vlogs" }
+,{ name: "Rajesh China Vlogs", handle: "@rajeshchinavlogs" }
+,{ name: "Bangkok Pilla", handle: "@BangkokPilla" }
+,{ name: "Laddu Reddy", handle: "@Laddureddyy" }
+,{ name: "PūrvaVignāna", handle: "@purvavignana" }
+,{ name: "Shiva Tube", handle: "@shivatube" }
+,{ name: "Avenger Rider Chakri", handle: "@avengerchakri" }
+,{ name: "", handle: "" }
+,{ name: "", handle: "" }
+,{ name: "", handle: "" }
+,{ name: "", handle: "" }
+,{ name: "", handle: "" }
+,{ name: "", handle: "" }
+,{ name: "", handle: "" }
+,{ name: "", handle: "" }
+,{ name: "", handle: "" }
+,{ name: "", handle: "" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        ];
+//,{ name: "", handle: "" }
+
+        const container = document.getElementById('channel-container');
+
+        channels.forEach(channel => {
+            const li = document.createElement('li');
+            li.className = 'channel-item';
+            
+            // YouTube's "/live" redirect automatically sends users to a current live stream
+            const liveUrl = `https://www.youtube.com/${channel.handle}/live`;
+            
+            li.innerHTML = `
+                <a href="${liveUrl}" target="_blank">
+                    ${channel.name} 
+                    <span class="live-indicator">LIVE</span>
+                </a>
+            `;
+            container.appendChild(li);
+        });
+        
+        
+        const topic1 = document.getElementById('topic');
+        let temp = "<h2>Youtubers - Live Channels Count - "+String(channels.length)+"</h2>";
+        topic1.innerHTML = temp;
+    </script>
+</body>
+</html>
