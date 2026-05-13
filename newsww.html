@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Worldwide News Live • YouTube Channels Directory</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background: #f1f5f9;
+            padding: 24px 20px;
+            color: #0f172a;
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        /* header */
+        .header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .header h1 {
+            font-size: 2.2rem;
+            background: linear-gradient(135deg, #b91c1c, #dc2626);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            display: inline-block;
+            letter-spacing: -0.3px;
+        }
+
+        .badge {
+            background: #1e293b;
+            color: white;
+            font-size: 0.9rem;
+            font-weight: 600;
+            padding: 6px 14px;
+            border-radius: 60px;
+            display: inline-block;
+            margin-top: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .badge span {
+            color: #facc15;
+            font-size: 1.1rem;
+        }
+
+        /* filter bar */
+        .filter-bar {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            margin: 30px 0 28px;
+        }
+
+        .filter-btn {
+            background: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            color: #1e293b;
+            border: 1px solid #e2e8f0;
+        }
+
+        .filter-btn.active {
+            background: #dc2626;
+            color: white;
+            border-color: #dc2626;
+            box-shadow: 0 4px 8px rgba(220,38,38,0.2);
+        }
+
+        .filter-btn:hover:not(.active) {
+            background: #f8fafc;
+            border-color: #cbd5e1;
+            transform: translateY(-1px);
+        }
+
+        /* stats row */
+        .stats {
+            background: white;
+            border-radius: 28px;
+            padding: 10px 24px;
+            margin-bottom: 28px;
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            flex-wrap: wrap;
+            gap: 12px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+            border: 1px solid #e9eef3;
+        }
+
+        .channel-count {
+            font-weight: 700;
+            background: #f1f5f9;
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-size: 0.9rem;
+        }
+
+        .live-note {
+            font-size: 0.8rem;
+            color: #475569;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .live-dot {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background-color: #ef4444;
+            border-radius: 50%;
+            animation: pulse 1.4s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.4; transform: scale(0.9);}
+            100% { opacity: 1; transform: scale(1.2);}
+        }
+
+        /* grid channels */
+        .channel-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 16px;
+        }
+
+        .channel-card {
+            background: white;
+            border-radius: 20px;
+            transition: all 0.2s;
+            border: 1px solid #eef2f6;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+        }
+
+        .channel-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 20px -12px rgba(0,0,0,0.15);
+            border-color: #e2e8f0;
+        }
+
+        .card-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 20px;
+            text-decoration: none;
+            color: #0f172a;
+        }
+
+        .channel-info {
+            flex: 1;
+        }
+
+        .channel-name {
+            font-weight: 700;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .channel-name-text {
+            word-break: break-word;
+        }
+
+        .live-badge {
+            font-size: 0.65rem;
+            background: #fee2e2;
+            color: #b91c1c;
+            padding: 3px 8px;
+            border-radius: 20px;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .region-tag {
+            font-size: 0.7rem;
+            background: #f1f5f9;
+            color: #334155;
+            padding: 3px 8px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-top: 6px;
+            font-weight: 500;
+        }
+
+        .arrow-icon {
+            font-size: 1.3rem;
+            color: #94a3b8;
+            transition: transform 0.1s;
+        }
+
+        .channel-card:hover .arrow-icon {
+            transform: translateX(4px);
+            color: #dc2626;
+        }
+
+        footer {
+            margin-top: 48px;
+            text-align: center;
+            font-size: 0.75rem;
+            color: #64748b;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 24px;
+        }
+
+        @media (max-width: 640px) {
+            body {
+                padding: 16px;
+            }
+            .channel-name {
+                font-size: 0.9rem;
+            }
+            .filter-btn {
+                padding: 6px 14px;
+                font-size: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>📺 LIVE NEWS • WORLDWIDE</h1>
+        <div class="badge">🌍 YouTube Channels | <span>🔴 Live Stream Ready</span></div>
+    </div>
+
+    <!-- filter categories -->
+    <div class="filter-bar" id="filterBar">
+        <button class="filter-btn active" data-cat="all">🌐 All Channels</button>
+        <button class="filter-btn" data-cat="india">🇮🇳 India (All)</button>
+        <button class="filter-btn" data-cat="telugu">📡 Telugu / Andhra</button>
+        <button class="filter-btn" data-cat="tamil">🟡 Tamil Nadu</button>
+        <button class="filter-btn" data-cat="malayalam">🥥 Kerala</button>
+        <button class="filter-btn" data-cat="kannada">🔶 Karnataka</button>
+        <button class="filter-btn" data-cat="hindi_english">🇮🇳 Hindi/English/National</button>
+        <button class="filter-btn" data-cat="world">🌎 Global / World</button>
+        <button class="filter-btn" data-cat="devotional">🕉️ Devotional & News</button>
+    </div>
+
+    <div class="stats">
+        <div class="channel-count" id="channelCountDisplay">📡 Loading channels...</div>
+        <div class="live-note"><span class="live-dot"></span> Click any card to open official YouTube live page (redirects to current stream if live)</div>
+    </div>
+
+    <div id="channel-grid-container" class="channel-grid"></div>
+    <footer>
+        ⚡ Direct links to YouTube channel’s <strong>/live</strong> – opens official stream if broadcasting live. <br>
+        Directory includes all major Indian languages + international news networks.
+    </footer>
+</div>
+
+<script>
+    // ------------------------------------------------------------------
+    // COMPREHENSIVE YOUTUBE NEWS CHANNELS (INDIA + WORLDWIDE)
+    // Indian channels FIRST: covering all major states, languages, national.
+    // Then all prominent global news networks.
+    // Each object: name, handle (YouTube handle or @username), regionCategory.
+    // regionCategory keys: 'india' (general all-india), 'telugu','tamil','malayalam','kannada',
+    // 'hindi_english','world','devotional'
+    // ------------------------------------------------------------------
+    const channelsData = [
+        // ====================== INDIA – ALL NEWS CHANNELS (COMPREHENSIVE) ======================
+        // TELUGU / ANDHRA & TELANGANA (full list + original given)
+        { name: "TV9 Telugu Live", handle: "@TV9TeluguLive", region: "telugu" },
+        { name: "SVBC TTD", handle: "@svbcttd", region: "telugu" },
+        { name: "Srisaila Tv", handle: "@SrisailaTv", region: "telugu" },
+        { name: "TEENMAR MALLANNA OFFICIAL PAGE", handle: "@TeenmarMallannaofficial", region: "telugu" },
+        { name: "NTV Telugu", handle: "@ntvtelugu", region: "telugu" },
+        { name: "ABN Telugu", handle: "@abntelugutv", region: "telugu" },
+        { name: "TV5 News", handle: "@tv5news", region: "telugu" },
+        { name: "BIG TV Telugu Live", handle: "@BIGTVTeluguLive", region: "telugu" },
+        { name: "T News Telugu", handle: "@TnewsTelugu", region: "telugu" },
+        { name: "News18 Telugu", handle: "@News18Telugu", region: "telugu" },
+        { name: "INEWS LIVE", handle: "@inewslive1662", region: "telugu" },
+        { name: "Mahaa News", handle: "@mahaanews", region: "telugu" },
+        { name: "TENALI NEWS CHANNEL", handle: "@TENALINEWS", region: "telugu" },
+        { name: "SITI NEWS TENALI", handle: "@siticabletenali", region: "telugu" },
+        { name: "STVTENALI", handle: "@STVTENALI", region: "telugu" },
+        { name: "HARIKA CABLE VISION", handle: "@hcvnewstenali", region: "telugu" },
+        { name: "GTV Tenali", handle: "@GTVTenali", region: "telugu" },
+        { name: "V6 News Telugu", handle: "V6NewsTelugu", region: "telugu" },
+        { name: "SDV NEWS CHANNEL VIZAG", handle: "@sdvnewschannelvizag7015", region: "telugu" },
+        { name: "TENALIHCVNEWS", handle: "@tenalihcvnews", region: "telugu" },
+        { name: "hmtv Telugu News", handle: "@hmtvtelugunewslive", region: "telugu" },
+        { name: "10TV News Telugu", handle: "@10TVNewsTelugu", region: "telugu" },
+        { name: "Prime9 News", handle: "@Prime9News", region: "telugu" },
+        { name: "Sakshi TV Digital", handle: "@SakshiTVDigital", region: "telugu" },
+        { name: "Sakshi TV", handle: "@SakshiTV", region: "telugu" },
+        { name: "ANN Telugu", handle: "@ann-telugu", region: "telugu" },
+        { name: "V6 News", handle: "@V6NewsTelugu", region: "telugu" },  // duplicate safe but fine
+        { name: "Vanitha TV Live", handle: "@vanithatvlive", region: "telugu" },
+
+        // TAMIL NEWS (extensive major players)
+        { name: "Sun News (Tamil)", handle: "@Sunnewstamil", region: "tamil" },
+        { name: "Sathiyam News (Tamil)", handle: "@SathiyamTV", region: "tamil" },
+        { name: "Polimer News (Tamil)", handle: "@PolimerNews", region: "tamil" },
+        { name: "Jaya Plus (Tamil)", handle: "@JayaPlusNews", region: "tamil" },
+        { name: "NewsJ (Tamil)", handle: "@NewsJ", region: "tamil" },
+        { name: "Kalaignar TV News (Tamil)", handle: "@KalaignarTVNews", region: "tamil" },
+        { name: "PuthiyathalaimuraiTV (Tamil)", handle: "@PuthiyaThalaimuraiTV", region: "tamil" },
+        { name: "Thanthi TV", handle: "@ThanthiTV", region: "tamil" },
+        { name: "News18 Tamil Nadu", handle: "@News18TamilNadu", region: "tamil" },
+        { name: "Zee Tamil News", handle: "@ZeeTamilNews", region: "tamil" },
+        { name: "ABP Nadu (Tamil)", handle: "@ABPNadu", region: "tamil" },
+        
+        // MALAYALAM (Kerala)
+        { name: "asianetnews", handle: "@asianetnews", region: "malayalam" },
+        { name: "News18 Kerala", handle: "@News18Kerala", region: "malayalam" },
+        { name: "24 News (Malayalam)", handle: "@24OnLive", region: "malayalam" },
+        { name: "Mathrubhumi News", handle: "@MathrubhumiNews", region: "malayalam" },
+        { name: "Manorama News", handle: "@manoramanews", region: "malayalam" },
+        { name: "MediaOne TV", handle: "@mediaonetv", region: "malayalam" },
+        { name: "Reporter Live", handle: "@ReporterLive", region: "malayalam" },
+        { name: "Kaumudy TV", handle: "@kaumudytv", region: "malayalam" },
+        { name: "Janam TV", handle: "@JanamTV", region: "malayalam" },
+        { name: "Asianet News Live", handle: "@asianetnewslive", region: "malayalam" },
+        
+        // KANNADA
+        { name: "TV9 Kannada", handle: "@tv9kannada", region: "kannada" },
+        { name: "Public TV Kannada", handle: "@publictv", region: "kannada" },
+        { name: "News18 Kannada", handle: "@News18Kannada", region: "kannada" },
+        { name: "Kannada Prabha", handle: "@kannadaprabha", region: "kannada" },
+        { name: "Btv News Kannada", handle: "@BtvNewsKannada", region: "kannada" },
+        { name: "Vijay Karnataka News", handle: "@VijayKarnataka", region: "kannada" },
+        
+        // HINDI / ENGLISH NATIONAL (India's major Hindi & English networks)
+        { name: "Aaj Tak", handle: "@aajtak", region: "hindi_english" },
+        { name: "India Today", handle: "@indiatoday", region: "hindi_english" },
+        { name: "News 24", handle: "@News24thinkfirst", region: "hindi_english" },
+        { name: "IndiaTV", handle: "@indiatv", region: "hindi_english" },
+        { name: "ABP NEWS", handle: "@ABPNews", region: "hindi_english" },
+        { name: "NDTV India", handle: "@ndtvindia", region: "hindi_english" },
+        { name: "CNN-News18", handle: "@cnnnews18", region: "hindi_english" },
+        { name: "Times Now", handle: "@TimesNow", region: "hindi_english" },
+        { name: "Mirror Now", handle: "@mirrornow", region: "hindi_english" },
+        { name: "Republic World", handle: "@RepublicWorld", region: "hindi_english" },
+        { name: "Republic Bharat", handle: "@RepublicBharat", region: "hindi_english" },
+        { name: "DB Live", handle: "@DBLive", region: "hindi_english" },
+        { name: "DNAIndiaNews", handle: "@DNAIndiaNews", region: "hindi_english" },
+        { name: "TV9 Bharatvarsh", handle: "@TV9Bharatvarsh", region: "hindi_english" },
+        { name: "CNBC-TV18", handle: "@CNBC-TV18", region: "hindi_english" },
+        { name: "ET Now", handle: "@etnow", region: "hindi_english" },
+        { name: "ET Now World", handle: "@etnowworld", region: "hindi_english" },
+        { name: "Zee News", handle: "@ZeeNews", region: "hindi_english" },
+        { name: "Zee Business", handle: "@ZeeBusiness", region: "hindi_english" },
+        { name: "News18 India", handle: "@News18India", region: "hindi_english" },
+        { name: "Lallantop", handle: "@TheLallantop", region: "hindi_english" },
+        { name: "The Wire", handle: "@thewire", region: "hindi_english" },
+        { name: "WION", handle: "@WION", region: "hindi_english" },  // India-based global
+        { name: "Firstpost", handle: "@Firstpost", region: "hindi_english" },
+        
+        // DEVOTIONAL & SPIRITUAL (often carry news+devotion)
+        { name: "Bhakthi TV", handle: "@bhakthitv", region: "devotional" },
+        { name: "HISTORY TV18", handle: "@historytv18", region: "devotional" },
+        { name: "Sanskar TV", handle: "@sanskartv", region: "devotional" },
+        
+        // ====================== WORLDWIDE GLOBAL NEWS CHANNELS ======================
+        { name: "BBC News", handle: "@BBCNews", region: "world" },
+        { name: "CNN", handle: "@CNN", region: "world" },
+        { name: "Fox News", handle: "@FoxNews", region: "world" },
+        { name: "LiveNOW from FOX", handle: "@livenowfox", region: "world" },
+        { name: "Sky News", handle: "@SkyNews", region: "world" },
+        { name: "Al Jazeera English", handle: "@AlJazeeraEnglish", region: "world" },
+        { name: "France 24", handle: "@France24_en", region: "world" },
+        { name: "DW News", handle: "@dwnews", region: "world" },
+        { name: "CBS News", handle: "@CBSNews", region: "world" },
+        { name: "ABC News", handle: "@ABCNews", region: "world" },
+        { name: "NBC News", handle: "@NBCNews", region: "world" },
+        { name: "PBS NewsHour", handle: "@PBSNewsHour", region: "world" },
+        { name: "TRT World", handle: "@TRTWorld", region: "world" },
+        { name: "CGTN", handle: "@CGTN", region: "world" },
+        { name: "RT News", handle: "@RTnews", region: "world" },
+        { name: "euronews", handle: "@euronews", region: "world" },
+        { name: "Bloomberg TV", handle: "@BloombergTV", region: "world" },
+        { name: "CNBC International", handle: "@CNBC", region: "world" },
+        { name: "NDTV World", handle: "@NDTVWorld", region: "world" },
+        { name: "The Guardian", handle: "@TheGuardian", region: "world" },
+        { name: "Times Radio", handle: "@TimesRadio", region: "world" },
+        { name: "Channel 4 News", handle: "@Channel4News", region: "world" },
+        { name: "ITV News", handle: "@ITVNews", region: "world" },
+        { name: "ABC News (Australia)", handle: "@abcnews", region: "world" },
+        { name: "CBC News", handle: "@CBCNews", region: "world" },
+        { name: "TVP World", handle: "@TVPWorld", region: "world" },
+        
+        // Extra Asian/International news
+        { name: "Arirang News", handle: "@arirangnews", region: "world" },
+        { name: "NHK World", handle: "@NHKWorld", region: "world" },
+        { name: "DD News (India official)", handle: "@DDNewsOfficial", region: "india" },
+        { name: "RTV News Network", handle: "@RTVNewsNetwork", region: "india" },
+        
+        // some remaining original handles
+        { name: "RTV", handle: "@RTVNewsNetwork", region: "india" },
+        { name: "Tenali Additional News (GTV)", handle: "@GTVTenali", region: "telugu" },
+        { name: "Prime9 News", handle: "@Prime9News", region: "telugu" }
+    ];
+
+    // Ensure we don't accidentally duplicate massive but unique names: using Map by lowercased name+handle? but fine.
+    // Remove duplicates based on handle (case-sensitive?) but just ensure unique final array
+    const uniqueMap = new Map();
+    for (const ch of channelsData) {
+        const key = ch.handle.toLowerCase();
+        if (!uniqueMap.has(key)) {
+            uniqueMap.set(key, ch);
+        }
+    }
+    const masterChannels = Array.from(uniqueMap.values());
+
+    // helper: build live URL with handle normalisation (add @ if missing)
+    function getLiveUrl(handle) {
+        let cleanHandle = handle.startsWith('@') ? handle : `@${handle}`;
+        return `https://www.youtube.com/${cleanHandle}/live`;
+    }
+
+    // render grid based on category filter
+    let activeCategory = "all";
+
+    function renderChannels() {
+        const container = document.getElementById('channel-grid-container');
+        let filtered = [];
+        if (activeCategory === "all") {
+            filtered = masterChannels;
+        } else {
+            filtered = masterChannels.filter(ch => ch.region === activeCategory);
+        }
+        
+        // update count display
+        const countSpan = document.getElementById('channelCountDisplay');
+        countSpan.innerHTML = `📺 Showing ${filtered.length} live news channels  •  Total in directory: ${masterChannels.length}`;
+        
+        if (filtered.length === 0) {
+            container.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding: 48px; background: white; border-radius: 32px;">✨ No channels in this category. Try "All Channels".</div>`;
+            return;
+        }
+        
+        // create grid
+        container.innerHTML = "";
+        filtered.forEach(channel => {
+            const liveUrl = getLiveUrl(channel.handle);
+            const card = document.createElement('div');
+            card.className = 'channel-card';
+            
+            let regionLabel = "";
+            switch(channel.region) {
+                case 'india': regionLabel = "🇮🇳 India National"; break;
+                case 'telugu': regionLabel = "📺 Telugu / AP/TG"; break;
+                case 'tamil': regionLabel = "🟡 Tamil Nadu"; break;
+                case 'malayalam': regionLabel = "🥥 Kerala"; break;
+                case 'kannada': regionLabel = "🔶 Karnataka"; break;
+                case 'hindi_english': regionLabel = "🇮🇳 Hindi / English (India)"; break;
+                case 'world': regionLabel = "🌍 Global News"; break;
+                case 'devotional': regionLabel = "🕉️ Devotional/Spiritual"; break;
+                default: regionLabel = "📡 Live News";
+            }
+            
+            card.innerHTML = `
+                <a href="${liveUrl}" target="_blank" class="card-link" rel="noopener noreferrer">
+                    <div class="channel-info">
+                        <div class="channel-name">
+                            <span class="channel-name-text">${escapeHtml(channel.name)}</span>
+                            <span class="live-badge">🔴 LIVE</span>
+                        </div>
+                        <div class="region-tag">${regionLabel}</div>
+                    </div>
+                    <div class="arrow-icon">▶</div>
+                </a>
+            `;
+            container.appendChild(card);
+        });
+    }
+    
+    // simple XSS protection
+    function escapeHtml(str) {
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
+            return c;
+        });
+    }
+    
+    // setup filter buttons
+    function initFilters() {
+        const buttons = document.querySelectorAll('.filter-btn');
+        buttons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                buttons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                activeCategory = btn.getAttribute('data-cat');
+                renderChannels();
+                // smooth scroll to top of grid
+                document.getElementById('channel-grid-container').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+    }
+    
+    // initial render
+    renderChannels();
+    initFilters();
+</script>
+</body>
+</html>
