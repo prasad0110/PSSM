@@ -1,4 +1,4 @@
 @echo off
-git add index.html
+git add .
 git commit -m"updated"
 git push
