@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Youtubers Channels</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; background-color: #f4f4f4; }
+        h1 { color: #cc0000; }
+        .channel-list { list-style: none; padding: 0; }
+        .channel-item { 
+            background: white; 
+            margin: 10px 0; 
+            padding: 15px; 
+            border-radius: 8px; 
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        a { text-decoration: none; color: #333; font-weight: bold; font-size: 1.2em; }
+        a:hover { color: #cc0000; }
+        .live-indicator { color: red; font-size: 0.8em; margin-left: 10px; border: 1px solid red; padding: 2px 5px; border-radius: 4px; }
+    </style>
+</head>
+<body>
+
+    <h1 id="topic">Youtubers - Live Channels</h1>
+    <ul id="channel-container" class="channel-list">
+        </ul>
+
+    <script>
+        // List of PMC related channel handles/IDs 
+        //,{ name: "", handle: "" }
+        const channels = [
+		
+                    { name: "VAAS Family", handle: "@VAASFamily" }
+					,{ name: "Telugu Yatri", handle: "@Teluguyatri1" }
+,{ name: "PRASAD KUWAIT", handle: "@PRASADKUWAIT19." }
+,{ name: "Ram The Traveller", handle: "@Ramthetraveller" }
+,{ name: "Sudheer The Explorer", handle: "@SudheerRides" }
+,{ name: "Dr. Vinay Prasad Bhakti channel", handle: "@vinayprasadharikathalu6658" }
+,{ name: "ALLU BHASKAR REDDY", handle: "@allubhaskarreddy" }
+,{ name: "Nakshathraa Jyothishyalayam", handle: "@NakshathraaJyothishyalayam" }
+,{ name: "Arabic Ammayi Andhra Abbayi", handle: "@ArabicAmmayiAndhraAbbayi" }
+,{ name: "Abhignareddy Lakkireddy", handle: "@AbhignareddyLakkireddy" }
+,{ name: "Uma Telugu Traveller", handle: "@UmaTeluguTraveller" }
+,{ name: "USA RAJA Telugu vlogs", handle: "@USARAJATeluguvlogs" }
+,{ name: "SHIVA SHAKTHI", handle: "@SHIVASHAKTHI" }
+,{ name: "Akanksha Sharan", handle: "@Akankshasharanvlogs" }
+,{ name: "Austin Ammayi", handle: "@AustinAmmayi_adhya9" }
+,{ name: "Vijay Pavan Kolukula", handle: "@Valasadaari" }
+,{ name: "Spain lo Telugu Ammayi", handle: "@SpainloTeluguAmmayi" }
+,{ name: "Aadhan Food & Travel", handle: "@AadhanFoodandTravel" }
+,{ name: "Seven traveler", handle: "@Seventraveler" }
+,{ name: "Nanda's Journey", handle: "@NandasJourney" }
+,{ name: "HN motovlogs", handle: "@HNmotovlogs" }
+,{ name: "Kranthi Travel Vlogger", handle: "@kranthitravelvlogger" }
+,{ name: "Shruthi Talks", handle: "@Shruthitalks" }
+,{ name: "Grishma Udayawar", handle: "@GrishmaUdayawar" }
+,{ name: "Ravi Telugu Traveller", handle: "@RaviTeluguTraveller" }
+,{ name: "Ravi On Trip", handle: "@raviontrip" }
+,{ name: "V2 Vignanam-Viharam", handle: "@V2VignanamViharam" }
+,{ name: "Greeshma Vlogs", handle: "@Greeshma_Vlogs" }
+,{ name: "Rajesh China Vlogs", handle: "@rajeshchinavlogs" }
+,{ name: "Bangkok Pilla", handle: "@BangkokPilla" }
+,{ name: "Laddu Reddy", handle: "@Laddureddyy" }
+,{ name: "PūrvaVignāna", handle: "@purvavignana" }
+,{ name: "Shiva Tube", handle: "@shivatube" }
+,{ name: "Avenger Rider Chakri", handle: "@avengerchakri" }
+,{ name: "YogaManjari TV", handle: "@yogamanjaritv6685" }
+,{ name: "Mantra Siddhi Telugu", handle: "@MantraSiddhiTelugu" }
+,{ name: "chamundeshwari numerology 1", handle: "@chamundeshwarinumerology1474" }
+,{ name: "ALLU BHASKAR REDDY", handle: "@allubhaskarreddy" }
+,{ name: "SRISAILAM OM SRI BALA SIDDIPEETAM 999", handle: "@chalabhavaniswami999" }
+,{ name: "Raju Anthe", handle: "@Rajuanthe" }
+,{ name: "Manasa Perspectives", handle: "@manasa.perspectives" }
+,{ name: "Srichalapathirao.com", handle: "@rajanipraveen07" }
+,{ name: "Dr sindhu mataji official", handle: "@bhadrakali_peetam" }
+,{ name: "MANGALAGIRI TIMES", handle: "@MANGALAGIRITIMES" }
+,{ name: "Naa Anveshana", handle: "@NaaAnveshana" }
+,{ name: "Harinadh_Films", handle: "@Harinadh_Films" }
+,{ name: "CKS News Hunt", handle: "@CKSNewsHunt" }
+,{ name: "KUMAR EXCLUSIVE", handle: "@KumarPandruvada" }
+,{ name: "Think Deep", handle: "@ThinkDeep" }
+,{ name: "SV telugu vlog", handle: "@svteluguvlog9019" }
+,{ name: "SJM Meditation", handle: "@MadhurimaJourneyMeditation" }
+,{ name: "V2 Vignanam-Viharam", handle: "@V2VignanamViharam" }
+,{ name: "Bunnu and Me", handle: "@Bunnuandme" }
+,{ name: "karunaajay2", handle: "@karunaajay2" }
+,{ name: "Kali Tantra Guru", handle: "@kalitantraguru" }
+,{ name: "Siddhaguru", handle: "@Siddhaguru" }
+,{ name: "Geetha Rainbows(Guntur)", handle: "@geetharainbows" }
+,{ name: "Suresh Nanii", handle: "@travelwithnanii3" }
+,{ name: "Ontari Yatrikudu", handle: "@ontariyatrikudu" }
+,{ name: "Sravani's Vlogs & Kitchen", handle: "@sravanisvlogskitchen" }
+,{ name: "Sharon Stories", handle: "@sharon_stories" }
+,{ name: "Discover China Life", handle: "@DiscoverChinaLife" }
+,{ name: "Vamsi Reddy Vlogs", handle: "@vamsireddyvlogs" }
+,{ name: "How Its Made Factories", handle: "@howitsmadefactories" }
+,{ name: "Village Vihari", handle: "@VillageViharichannel" }
+,{ name: "Praveen Telugu Traveller", handle: "@praveentelugutraveller" }
+,{ name: "Telugu Traveller", handle: "@TeluguTraveller" }
+,{ name: "Sushma Kiron", handle: "@SushmaKiron" }
+,{ name: "మహాతంత్ర", handle: "@tantrikavidyalu" }
+,{ name: "Kadapa Darshini", handle: "@KadapaDarsini" }
+,{ name: "Vikram Vihari", handle: "@vikramviharichannel" }
+,{ name: "Mana Prayanam With AK", handle: "@ManaPrayanamWithAK" }
+,{ name: "Sanjib Youtube Channel(Bengali)", handle: "@SanjibYoutubeChannel" }
+,{ name: "Sarath Chippagiri", handle: "@sarathchip" }
+,{ name: "Back Bench Traveller", handle: "@backbenchtraveller" }
+,{ name: "Greeshma Vlogs", handle: "@Greeshma_Vlogs" }
+,{ name: "Historical adventures", handle: "@Sahasayatrikudu" }
+,{ name: "Geetha Rainbows", handle: "@geetharainbows" }
+,{ name: "Pramodha Vlogs", handle: "@PramodhaVlogs" }
+,{ name: "GBR Indian Traveller", handle: "@BhaskarGanga-r5o" }
+,{ name: "Anchor Santhoshi vlogs", handle: "@anchorsanthoshivlogs" }
+,{ name: "Godavari Muni", handle: "@GodavariMuni" }
+,{ name: "Punis Lifestyle(Tamil)", handle: "@punislifestyle732" }
+,{ name: "TigerYT", handle: "@TigerYT-1" }
+,{ name: "shruthi_tho_sopathi", handle: "@shruthi_tho_sopathi" }
+,{ name: "Sreemukhi", handle: "@Sreemukhi" }
+,{ name: "Chantabbai(RockingRakesh)", handle: "@ChantabbaiOfficial" }
+,{ name: "Super Sujatha(WifeofRakesh)", handle: "@SuperSujathaOfficial" }
+,{ name: "Vasu Travel Vlog", handle: "@VasuTravelVlog-ji5sy" }
+,{ name: "Varun Vasudev", handle: "@VarunVasudev01" }
+,{ name: "Hari Akula(Vijayawada)", handle: "@hariakulaofficial" }
+,{ name: "Mullapudis Astrology", handle: "@mullapudisastrology" }
+,{ name: "Hasvitha vlogs", handle: "@HasvithavlogsE" }
+,{ name: "Amrutha Sandhadi", handle: "@AmruthaSandhadi" }
+,{ name: "Kala Tulasi vlogs", handle: "@KalaTulasiVlogs" }
+,{ name: "Bhimavaram Kittayya", handle: "@bhimavaramKittayya1990" }
+,{ name: "SrivaniNaturalTalks", handle: "@SrivaniNaturaltalks05" }
+,{ name: "Mana Germany Diaries", handle: "@ManaGermanyDiaries" }
+,{ name: "VB Vedic Astrology - Dr Sarmaaji", handle: "@VBVedicAstrology" }
+,{ name: "NELLORE BIDDANU", handle: "@nellorebiddanu10" }
+,{ name: "PrasadLifeStyle", handle: "@prasaddevarakonda" }
+,{ name: "Sharon Stories", handle: "@sharon_stories" }
+,{ name: "DivyaSagar Journal", handle: "@DivyaSagarJournal" }
+,{ name: "Sneha knowledge vibes", handle: "@Snehaknowledgevibes" }
+,{ name: "Temples Traveller", handle: "@TeluguTemplesTraveller" }
+,{ name: "All In One Madhavi Vlogs", handle: "@AllInOneMadhaviVlogs" }
+,{ name: "Travel Tech Balaji", handle: "@TravelTechBalaji" }
+
+,{ name: "Mariyam Telugu Vlogs", handle: "@MariyamTeluguVlogs" }
+,{ name: "Food Captain(Vijayawada)", handle: "@food.captain_" }
+,{ name: "VANESSA WORLD", handle: "@rajunaidu137" }
+,{ name: "Sree Sannidhi TV", handle: "@sreesannidhitvofficial" }
+,{ name: "Actor Dhanraj", handle: "@ActorDhanraj" }
+,{ name: "Sree Niravi Tv", handle: "@sreeniravitv" }
+,{ name: "Yoga Bharateeyam", handle: "@YogaBharateeyam" }
+,{ name: "AVR Telugu Vlogs", handle: "@AVRTeluguVlogs" }
+,{ name: "Zubeda Ali", handle: "@zubedaali" }
+,{ name: "SMV Travel & K", handle: "@SMVTravel" }
+,{ name: "Ldlifestyle786&volgs", handle: "@Ldlifestyle777" }
+,{ name: "Lakshmi The Explorer", handle: "@lakshmitheexplorer9632" }
+,{ name: "Jhansi Kalaga in Japan", handle: "@jhansiinjapan" }
+,{ name: "Nature lover NAGENDRA", handle: "@Nature_Lover_NAGENDRA" }
+,{ name: "Pedapudi Sisters", handle: "@PedapudiSisters" }
+,{ name: "lakshmis vlogs", handle: "@lakshmisvlogs" }
+,{ name: "Rakuri Diaries", handle: "@RakuriDiaries" }
+,{ name: "", handle: "" }
+,{ name: "", handle: "" }
+,{ name: "", handle: "" }
+,{ name: "", handle: "" }
+,{ name: "", handle: "" }
+,{ name: "", handle: "" }
+,{ name: "", handle: "" }
+,{ name: "", handle: "" }
+,{ name: "", handle: "" }
+,{ name: "", handle: "" }
+,{ name: "", handle: "" }
+,{ name: "", handle: "" }
+,{ name: "", handle: "" }
+,{ name: "", handle: "" }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        ];
+//,{ name: "", handle: "" }
+
+        const container = document.getElementById('channel-container');
+
+        channels.forEach(channel => {
+            const li = document.createElement('li');
+            li.className = 'channel-item';
+            
+            // YouTube's "/live" redirect automatically sends users to a current live stream
+            const liveUrl = `https://www.youtube.com/${channel.handle}/live`;
+            
+            li.innerHTML = `
+                <a href="${liveUrl}" target="_blank">
+                    ${channel.name} 
+                    <span class="live-indicator">LIVE</span>
+                </a>
+            `;
+            container.appendChild(li);
+        });
+        
+        
+        const topic1 = document.getElementById('topic');
+        let temp = "<h2>Youtubers - Live Channels Count - "+String(channels.length)+"</h2>";
+        topic1.innerHTML = temp;
+    </script>
+</body>
+</html>
