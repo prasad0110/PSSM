@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News Live Channels</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; background-color: #f4f4f4; }
+        h1 { color: #cc0000; }
+        .channel-list { list-style: none; padding: 0; }
+        .channel-item { 
+            background: white; 
+            margin: 10px 0; 
+            padding: 15px; 
+            border-radius: 8px; 
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        a { text-decoration: none; color: #333; font-weight: bold; font-size: 1.2em; }
+        a:hover { color: #cc0000; }
+        .live-indicator { color: red; font-size: 0.8em; margin-left: 10px; border: 1px solid red; padding: 2px 5px; border-radius: 4px; }
+    </style>
+</head>
+<body>
+
+    <h1 id="topic">News - Live Channels</h1>
+    <ul id="channel-container" class="channel-list">
+        </ul>
+
+    <script>
+        // List of PMC related channel handles/IDs 
+        //,{ name: "", handle: "" }
+        const channels = [
+                     { name: "TENALI NEWS CHANNEL", handle: "@TENALINEWS" }
+,{ name: "SITI NEWS TENALI", handle: "@siticabletenali" }
+,{ name: "S NEWS TENALI", handle: "@snewstenali" }
+,{ name: "STVTENALI", handle: "@STVTENALI" }
+,{ name: "HARIKA CABLE VISION", handle: "@hcvnewstenali" }
+,{ name: "GTV Tenali", handle: "@GTVTenali" }
+,{ name: "OUR_TENALI", handle: "@OUR_TENALI" }
+,{ name: "TENALIHCVNEWS", handle: "@tenalihcvnews" }
+,{ name: "", handle: "" }
+,{ name: "", handle: "" }
+,{ name: "", handle: "" }
+,{ name: "", handle: "" }
+
+
+
+
+
+        ];
+//,{ name: "", handle: "" }
+
+        const container = document.getElementById('channel-container');
+
+        channels.forEach(channel => {
+            const li = document.createElement('li');
+            li.className = 'channel-item';
+            
+            // YouTube's "/live" redirect automatically sends users to a current live stream
+            const liveUrl = `https://www.youtube.com/${channel.handle}/live`;
+            
+            li.innerHTML = `
+                <a href="${liveUrl}" target="_blank">
+                    ${channel.name} 
+                    <span class="live-indicator">LIVE</span>
+                </a>
+            `;
+            container.appendChild(li);
+        });
+        
+        
+        const topic1 = document.getElementById('topic');
+        let temp = "<h2>News - Live Channels Count - "+String(channels.length)+"</h2>";
+        topic1.innerHTML = temp;
+    </script>
+</body>
+</html>
